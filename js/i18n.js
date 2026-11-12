@@ -290,3 +290,6 @@ Object.assign(window.I18N.ta, {
   taxch_title: "வரி மற்றும் அறவீட்டு மாற்றங்கள்", taxch_desc: "உரையின் இறுதியில் அறிவிக்கப்பட்டவை. பெரும்பாலானவை வரிகளைக் குறைக்கின்றன; ஒன்று அறவீட்டை உயர்த்துகிறது.",
   tag_down: "நிவாரணம்", tag_up: "அதிகரிப்பு", tag_same: "மாற்றமில்லை", per_day: "/ நாள்"
 });
+Object.assign(window.I18N.en, { dev_by: "Designed & developed by", dev_role: "Senior ICT Teacher, Sri Lanka" });
+Object.assign(window.I18N.si, { dev_by: "නිර්මාණය හා සංවර්ධනය", dev_role: "ජ්‍යෙෂ්ඨ ICT ගුරු, ශ්‍රී ලංකාව" });
+Object.assign(window.I18N.ta, { dev_by: "வடிவமைப்பு மற்றும் உருவாக்கம்", dev_role: "சிரேஷ்ட ICT ஆசிரியர், இலங்கை" });

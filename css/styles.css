@@ -470,3 +470,23 @@ main { padding-bottom: 48px; }
 .tc-up { --tc: #d03b3b; --tc-ink: #d03b3b; }
 .tc-same { --tc: var(--ink-3); --tc-ink: var(--ink-3); }
 @media (max-width: 560px) { .tc { grid-template-columns: 30px 1fr; } .tc-tag { grid-column: 2; } }
+
+/* Developer footer */
+main { padding-bottom: 24px; }
+.dev-footer { border-top: 1px solid var(--line); background: var(--surface); position: relative; }
+.dev-footer::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 2px;
+  background: linear-gradient(90deg, var(--s1), var(--s7), var(--s5), var(--s2), var(--s4), var(--s3)); opacity: .85; }
+.dev-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; padding-top: 22px; padding-bottom: 26px; }
+.dev-who { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.dev-who > div { display: flex; flex-direction: column; line-height: 1.35; }
+.dev-who small { color: var(--ink-3); font-size: .76rem; }
+.dev-avatar { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; flex: none;
+  font-weight: 800; font-size: 1.2rem; color: #fff; background: linear-gradient(135deg, var(--s1), var(--s7) 55%, var(--s5)); }
+.dev-name { font-weight: 700; font-size: 1rem; color: var(--ink); text-decoration: none; }
+.dev-name:hover { color: var(--accent); }
+.dev-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.dev-links a { display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px; border-radius: 999px; text-decoration: none;
+  font-size: .82rem; font-weight: 600; color: var(--ink-2); background: var(--surface-2); border: 1px solid var(--line); transition: transform .15s, border-color .15s, color .15s; }
+.dev-links a:hover { color: var(--ink); border-color: var(--c); transform: translateY(-1px); }
+.dev-links svg { width: 16px; height: 16px; fill: none; stroke: var(--c); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+@media (max-width: 560px) { .dev-links a span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } .dev-links a { padding: 9px; } .dev-links svg { width: 18px; height: 18px; } }
