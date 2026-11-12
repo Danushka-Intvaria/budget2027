@@ -164,6 +164,12 @@
       src = top.map((m) => ({ id: m.id, value: minTotal(m, 2), prior: minTotal(m, 1), name: L(m.name), short: L(m.short || m.name) }));
       src.push({ id: "others", other: true, value: rest.reduce((s, m) => s + minTotal(m, 2), 0), prior: rest.reduce((s, m) => s + minTotal(m, 1), 0),
         name: t("others_heads").replace("{n}", rest.length), short: t("others_short") });
+    } else if (state.mode === "sectors") {
+      const sorted = D.sectors.slice().sort((a, b) => b.rec + b.cap - (a.rec + a.cap));
+      const top = sorted.slice(0, 8), rest = sorted.slice(8);
+      src = top.map((s) => ({ id: s.id, value: s.rec + s.cap, name: L(s.name), short: L(s.short) }));
+      src.push({ id: "othersec", other: true, value: rest.reduce((a, s) => a + s.rec + s.cap, 0),
+        name: t("other_sectors").replace("{n}", rest.length) + ": " + rest.map((s) => L(s.short)).join(", "), short: t("others_short") });
     } else if (state.mode === "projects") src = D.megaProjects.map((m) => ({ id: m.id, value: m.amount, name: L(m.name), short: L(m.short) }));
     else src = D.people.map((m) => ({ id: m.id, value: m.amount, name: L(m.name), short: L(m.short) }));
     return src.map((d, i) => ({ ...d, colorVar: d.other ? "--s-other" : SLOT[i % 8], color: cssVar(d.other ? "--s-other" : SLOT[i % 8]) }));
@@ -479,10 +485,45 @@
       </div>`).join("");
 
     const facts = [
-      ["f_growth", "rocket", "--s1"], ["f_usd", "globe", "--s2"], ["f_borrow", "bank", "--s7"], ["f_reserves", "globe", "--s3"],
-      ["f_rating", "star", "--s4"], ["f_renew", "leaf", "--s6"], ["f_inflation", "flame", "--s8"], ["f_vacancies", "users", "--s5"]
+      ["f_assump", "target", "--s1"], ["f_infl_target", "flame", "--s8"], ["f_usd", "globe", "--s2"], ["f_borrow", "bank", "--s7"],
+      ["f_pension", "users", "--s5"], ["f_teachers", "users", "--s3"], ["f_digital", "rocket", "--s1"], ["f_maint", "crane", "--s4"],
+      ["f_reserves", "globe", "--s3"], ["f_rating", "star", "--s4"], ["f_renew", "leaf", "--s6"], ["f_growth", "rocket", "--s2"]
     ];
     $("#facts").innerHTML = facts.map(([k, ic, c]) => `<li><span class="f-ic" style="--fc:var(${c})">${svg(ic)}</span><span>${esc(t(k))}</span></li>`).join("");
+  }
+
+  /* ---------- Sectors (Citizens Budget) ---------- */
+  const openSectors = new Set();
+  function renderSectors() {
+    legend($("#secLegend"), [["--s7", t("recurrent")], ["--s3", t("capital")]]);
+    const list = D.sectors.slice().sort((a, b) => b.rec + b.cap - (a.rec + a.cap));
+    const max = list[0].rec + list[0].cap;
+    const sumAll = list.reduce((a, s) => a + s.rec + s.cap, 0);
+    $("#secList").innerHTML = list.map((s, i) => {
+      const tot = s.rec + s.cap, open = openSectors.has(s.id), has = s.subs.length > 0;
+      const subMax = has ? Math.max(...s.subs.map((x) => x.value)) : 1;
+      return `
+      <div class="sec${open ? " open" : ""}">
+        <button type="button" class="sec-head" data-id="${s.id}" ${has ? `aria-expanded="${open}"` : "disabled"}
+          data-tip="<b>${esc(L(s.name))}</b><br>${esc(t("recurrent"))}: ${esc(fmtMn(s.rec))}<br>${esc(t("capital"))}: ${esc(fmtMn(s.cap))}">
+          <span class="sec-name"><b>${esc(L(s.short))}</b><small>${esc(L(s.name))}</small></span>
+          <span class="sec-val"><b>${esc(fmtMn(tot))}</b><small>${nf((tot / sumAll) * 100, 1)}%</small></span>
+          <span class="sec-chev" aria-hidden="true">${has ? "▾" : ""}</span>
+          <span class="stack sec-bar" style="width:${(tot / max) * 100}%;animation-delay:${i * 0.04}s">
+            <span style="flex:${s.rec};background:var(--s7)"></span><span style="flex:${s.cap};background:var(--s3)"></span>
+          </span>
+        </button>
+        ${has && open ? `<ul class="sec-subs">${s.subs.slice().sort((a, b) => b.value - a.value).map((x) => `
+          <li><span>${esc(L(x.n))}</span><b>${esc(fmtMn(x.value))}</b>
+            <span class="sub-bar" style="width:${Math.max(1, (x.value / subMax) * 100)}%"></span></li>`).join("")}</ul>` : ""}
+      </div>`;
+    }).join("") + `<div class="sec-total"><span>${esc(t("sectors_total"))}</span><b>${esc(fmtMn(sumAll))}</b></div>`;
+    $("#secList").querySelectorAll(".sec-head:not([disabled])").forEach((b) =>
+      b.addEventListener("click", () => {
+        openSectors.has(b.dataset.id) ? openSectors.delete(b.dataset.id) : openSectors.add(b.dataset.id);
+        $("#secList").classList.add("settled");
+        renderSectors();
+      }));
   }
 
   /* ---------- Tax & levy changes ---------- */
@@ -511,6 +552,7 @@
     renderProvinces();
     renderMinistries();
     renderAllowances();
+    renderSectors();
     renderTaxChanges();
     renderTax();
     renderChips();

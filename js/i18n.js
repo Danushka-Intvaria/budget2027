@@ -293,3 +293,43 @@ Object.assign(window.I18N.ta, {
 Object.assign(window.I18N.en, { dev_by: "Designed & developed by", dev_role: "Senior ICT Teacher, Sri Lanka" });
 Object.assign(window.I18N.si, { dev_by: "නිර්මාණය හා සංවර්ධනය", dev_role: "ජ්‍යෙෂ්ඨ ICT ගුරු, ශ්‍රී ලංකාව" });
 Object.assign(window.I18N.ta, { dev_by: "வடிவமைப்பு மற்றும் உருவாக்கம்", dev_role: "சிரேஷ்ட ICT ஆசிரியர், இலங்கை" });
+/* ===== Citizens Budget 2027 strings ===== */
+Object.assign(window.I18N.en, {
+  nav_sectors: "Sectors", mode_sectors: "Sectors",
+  s3d_desc_sectors: "Spending grouped by what it does for citizens, from the Treasury's Citizens Budget 2027. Debt service is not part of any sector.",
+  sec_title: "Spending by sector", sec_desc: "From the Treasury's Citizens Budget 2027. Debt service (Rs 4.85 tn) and contingencies are not counted in any sector. Tap a sector to see what it pays for.",
+  sectors_total: "All sectors", other_sectors: "Other sectors ({n})",
+  k_social: "Aswesuma programme", k_aswesuma: "cash grants, elderly, disability & kidney support",
+  f_assump: "2027 assumptions: growth 4–5%, deficit 4.5% of GDP, revenue 15.8% of GDP",
+  f_infl_target: "Inflation expected back to the 5% target by mid-2027; unemployment below 5%",
+  f_digital: "Rs 40 bn for digital transformation across government",
+  f_maint: "Rs 241 bn to maintain and rehabilitate public assets",
+  f_teachers: "Teachers are the largest group of public servants: 225,314",
+  f_pension: "730,000 retired public officers receive pensions (Rs 425 bn)"
+});
+Object.assign(window.I18N.si, {
+  nav_sectors: "අංශ", mode_sectors: "අංශ",
+  s3d_desc_sectors: "භාණ්ඩාගාරයේ 2027 පුරවැසි අයවැයට අනුව, පුරවැසියන්ට කරන සේවය අනුව කාණ්ඩ කළ වියදම. ණය සේවාකරණය කිසිදු අංශයකට අයත් නොවේ.",
+  sec_title: "අංශ අනුව වියදම", sec_desc: "භාණ්ඩාගාරයේ 2027 පුරවැසි අයවැයෙන්. ණය සේවාකරණය (රු. ට්‍රිලියන 4.85) හා හදිසි වියදම් කිසිදු අංශයකට ඇතුළත් නොවේ. අංශයක් වැය කරන්නේ කුමකටදැයි බැලීමට එය තට්ටු කරන්න.",
+  sectors_total: "සියලු අංශ", other_sectors: "වෙනත් අංශ ({n})",
+  k_social: "අස්වැසුම වැඩසටහන", k_aswesuma: "මුදල් ප්‍රදාන, වැඩිහිටි, ආබාධිත හා වකුගඩු ආධාර",
+  f_assump: "2027 උපකල්පන: වර්ධනය 4–5%, හිඟය දදේනියෙන් 4.5%, ආදායම දදේනියෙන් 15.8%",
+  f_infl_target: "2027 මැද වන විට උද්ධමනය 5% ඉලක්කයට පැමිණේ යැයි අපේක්ෂිතයි; විරැකියාව 5% ට අඩුයි",
+  f_digital: "රජය පුරා ඩිජිටල් පරිවර්තනයට රු. බිලියන 40",
+  f_maint: "රාජ්‍ය වත්කම් නඩත්තුවට හා ප්‍රතිසංස්කරණයට රු. බිලියන 241",
+  f_teachers: "රාජ්‍ය සේවකයින් අතර විශාලතම කණ්ඩායම ගුරුවරුන්ය: 225,314",
+  f_pension: "විශ්‍රාමික රාජ්‍ය නිලධාරීන් 730,000කට විශ්‍රාම වැටුප් (රු. බිලියන 425)"
+});
+Object.assign(window.I18N.ta, {
+  nav_sectors: "துறைகள்", mode_sectors: "துறைகள்",
+  s3d_desc_sectors: "திறைசேரியின் 2027 குடிமக்கள் வரவுசெலவுத் திட்டத்தின்படி, குடிமக்களுக்கு ஆற்றும் பணியின் அடிப்படையில் தொகுக்கப்பட்ட செலவு. கடன் சேவை எந்தத் துறையிலும் சேர்க்கப்படவில்லை.",
+  sec_title: "துறை வாரியான செலவு", sec_desc: "திறைசேரியின் 2027 குடிமக்கள் வரவுசெலவுத் திட்டத்திலிருந்து. கடன் சேவை (ரூ. 4.85 டிரில்லியன்) மற்றும் எதிர்பாராச் செலவுகள் எந்தத் துறையிலும் சேர்க்கப்படவில்லை. ஒரு துறை எதற்குச் செலவிடுகிறது என்பதைக் காண அதைத் தொடவும்.",
+  sectors_total: "அனைத்துத் துறைகளும்", other_sectors: "ஏனைய துறைகள் ({n})",
+  k_social: "அஸ்வெசும திட்டம்", k_aswesuma: "பணக் கொடை, முதியோர், மாற்றுத்திறனாளி, சிறுநீரக உதவி",
+  f_assump: "2027 அனுமானங்கள்: வளர்ச்சி 4–5%, பற்றாக்குறை மொ.உ.உ. 4.5%, வருமானம் மொ.உ.உ. 15.8%",
+  f_infl_target: "2027 நடுப்பகுதியில் பணவீக்கம் 5% இலக்கிற்குத் திரும்பும் என எதிர்பார்ப்பு; வேலையின்மை 5%க்கும் குறைவு",
+  f_digital: "அரசு முழுவதும் டிஜிட்டல் மாற்றத்திற்கு ரூ. 40 பில்லியன்",
+  f_maint: "அரச சொத்துகளைப் பராமரிக்க, புனரமைக்க ரூ. 241 பில்லியன்",
+  f_teachers: "அரச ஊழியர்களில் மிகப்பெரிய குழு ஆசிரியர்கள்: 225,314",
+  f_pension: "730,000 ஓய்வுபெற்ற அரச அலுவலர்களுக்கு ஓய்வூதியம் (ரூ. 425 பில்லியன்)"
+});
