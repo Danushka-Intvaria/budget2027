@@ -39,6 +39,13 @@
   const pct = (a, b) => ((b - a) / a) * 100;
   const fmtPct = (p, d = 1) => `${p > 0 ? "+" : ""}${nf(p, d)}%`;
 
+  /* ---------- Analytics (Google Tag Manager dataLayer) ---------- */
+  const track = (event, params) => {
+    try { (window.dataLayer = window.dataLayer || []).push(Object.assign({ event }, params)); } catch (e) {}
+  };
+  let taxTracked = false;
+  const trackTax = () => { if (!taxTracked) { taxTracked = true; track("tax_calculator_use"); } };
+
   /* ---------- Theme ---------- */
   const mql = window.matchMedia("(prefers-color-scheme: dark)");
   const isDark = () => {
@@ -102,6 +109,7 @@
     b.addEventListener("click", () => {
       state.lang = b.dataset.lang;
       store.set("b27-lang", state.lang);
+      track("language_change", { language: state.lang });
       renderAll();
     })
   );
@@ -191,6 +199,7 @@
     document.querySelectorAll("#modeSwitch button").forEach((b) =>
       b.addEventListener("click", () => {
         state.mode = b.dataset.mode;
+        track("view_3d_mode", { mode: state.mode });
         state.selected = null;
         renderStage();
       })
@@ -428,8 +437,8 @@
   }
   function initTax() {
     const inp = $("#taxInput"), rng = $("#taxRange");
-    inp.addEventListener("input", () => { rng.value = Math.min(1000000, Number(inp.value) || 0); renderTax(); });
-    rng.addEventListener("input", () => { inp.value = rng.value; renderTax(); });
+    inp.addEventListener("input", () => { rng.value = Math.min(1000000, Number(inp.value) || 0); renderTax(); trackTax(); });
+    rng.addEventListener("input", () => { inp.value = rng.value; renderTax(); trackTax(); });
   }
 
   /* ---------- Proposal explorer ---------- */
