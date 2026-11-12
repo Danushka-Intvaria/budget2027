@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sri Lanka Budget 2027</title>
+  <meta name="description" content="Interactive 3D dashboard of Sri Lanka's Budget 2027 in English, Sinhala and Tamil.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='3' y='16' width='6' height='13' rx='1.5' fill='%232a78d6'/><rect x='13' y='8' width='6' height='21' rx='1.5' fill='%23eb6834'/><rect x='23' y='3' width='6' height='26' rx='1.5' fill='%231baf7a'/></svg>">
+  <script>
+    // Apply saved theme before paint to avoid a flash
+    var t = null;
+    try { t = new URLSearchParams(location.search).get("theme") || localStorage.getItem("b27-theme"); } catch (e) {}
+    if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip" href="#main" data-i18n="nav_overview">Overview</a>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#overview" aria-label="Budget 2027">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="brand-text">
+          <strong data-i18n="title">Sri Lanka Budget 2027</strong>
+          <small data-i18n="speech">Budget speech · 12 Nov 2026</small>
+        </span>
+      </a>
+      <nav class="mainnav" aria-label="Sections">
+        <a href="#overview" data-i18n="nav_overview">Overview</a>
+        <a href="#money" data-i18n="nav_money">Money in &amp; out</a>
+        <a href="#ministries" data-i18n="nav_ministries">Ministries</a>
+        <a href="#people" data-i18n="nav_people">For you</a>
+        <a href="#tax" data-i18n="nav_tax">Tax calculator</a>
+        <a href="#explore" data-i18n="nav_explore">Proposals</a>
+        <a href="#debt" data-i18n="nav_debt">Debt</a>
+      </nav>
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Language" id="langSwitch">
+          <button type="button" data-lang="en" lang="en">EN</button>
+          <button type="button" data-lang="si" lang="si">සිං</button>
+          <button type="button" data-lang="ta" lang="ta">தமி</button>
+        </div>
+        <button type="button" class="icon-btn" id="themeBtn" aria-label="Switch theme" data-i18n-aria="theme_toggle">
+          <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v3M12 19.5v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M1.5 12h3M19.5 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+          <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section id="overview" class="hero">
+      <div class="wrap">
+        <div class="hero-head">
+          <h1><span data-i18n="title">Sri Lanka Budget 2027</span></h1>
+          <p class="lede" data-i18n="subtitle">A plain-language, interactive guide to where the money goes</p>
+          <p class="dates"><span data-i18n="speech"></span><span class="dot">•</span><span data-i18n="vote"></span></p>
+        </div>
+
+        <div class="kpis" id="kpis"></div>
+
+        <div class="card stage-card">
+          <div class="card-head">
+            <div>
+              <h2 data-i18n="s3d_title">Budget in 3D</h2>
+              <p class="muted" id="stageDesc"></p>
+            </div>
+            <div class="seg seg-lg" role="tablist" aria-label="3D view" id="modeSwitch">
+              <button type="button" role="tab" data-mode="categories" data-i18n="mode_categories">Every rupee</button>
+              <button type="button" role="tab" data-mode="ministries" data-i18n="mode_ministries">Ministries</button>
+              <button type="button" role="tab" data-mode="projects" data-i18n="mode_projects">Mega projects</button>
+              <button type="button" role="tab" data-mode="people" data-i18n="mode_people">People programmes</button>
+            </div>
+          </div>
+          <div class="stage-grid">
+            <div class="stage" id="stage">
+              <div class="stage-labels" id="stageLabels" aria-hidden="true"></div>
+              <div class="stage-fallback" id="stageFallback" hidden data-i18n="s3d_nowebgl"></div>
+              <div class="stage-foot">
+                <span class="hint" data-i18n="s3d_hint"></span>
+                <button type="button" class="ghost-btn" id="resetView" data-i18n="reset_view">Reset view</button>
+              </div>
+            </div>
+            <div class="stage-side">
+              <div class="detail" id="detail" aria-live="polite"></div>
+              <ol class="legend" id="legend"></ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MONEY IN & OUT -->
+    <section id="money" class="wrap section grid-eq">
+      <article class="card">
+        <h2 data-i18n="r100_title"></h2>
+        <p class="muted" data-i18n="r100_desc"></p>
+        <div class="waffle-wrap">
+          <div class="waffle" id="waffle" role="img"></div>
+          <ul class="waffle-legend" id="waffleLegend"></ul>
+        </div>
+      </article>
+      <article class="card">
+        <h2 data-i18n="rev_title"></h2>
+        <p class="muted" data-i18n="rev_desc"></p>
+        <div id="revChart" class="hbars"></div>
+      </article>
+    </section>
+
+    <!-- TREND + MINISTRIES -->
+    <section id="ministries" class="wrap section grid-2">
+      <article class="card">
+        <h2 data-i18n="trend_title"></h2>
+        <p class="muted" data-i18n="trend_desc"></p>
+        <div class="chart-legend" id="trendLegend"></div>
+        <div id="trendChart" class="vchart"></div>
+        <p class="note"><span data-i18n="proj_note"></span>. <span data-i18n="actual2025"></span></p>
+      </article>
+      <article class="card">
+        <h2 data-i18n="min_title"></h2>
+        <p class="muted" data-i18n="min_desc"></p>
+        <div class="chart-legend" id="minLegend"></div>
+        <div id="minChart" class="hbars"></div>
+        <button type="button" class="ghost-btn more-btn" id="minMore"></button>
+        <details class="tbl">
+          <summary data-i18n="show_table">Show as table</summary>
+          <div id="minTable"></div>
+        </details>
+      </article>
+    </section>
+
+    <!-- PROVINCES -->
+    <section id="provinces" class="wrap section">
+      <article class="card">
+        <h2 data-i18n="prov_title"></h2>
+        <p class="muted" data-i18n="prov_desc"></p>
+        <div class="chart-legend" id="provLegend"></div>
+        <div id="provChart" class="prov-grid"></div>
+      </article>
+    </section>
+
+    <!-- PEOPLE -->
+    <section id="people" class="wrap section">
+      <article class="card">
+        <h2 data-i18n="people_title"></h2>
+        <p class="muted" data-i18n="people_desc"></p>
+        <div id="allowances" class="allow-grid"></div>
+      </article>
+    </section>
+
+    <!-- TAX CHANGES -->
+    <section id="taxchanges" class="wrap section">
+      <article class="card">
+        <h2 data-i18n="taxch_title"></h2>
+        <p class="muted" data-i18n="taxch_desc"></p>
+        <ul class="taxch" id="taxChanges"></ul>
+      </article>
+    </section>
+
+    <!-- TAX -->
+    <section id="tax" class="wrap section">
+      <article class="card tax-card">
+        <div class="tax-intro">
+          <h2 data-i18n="tax_title"></h2>
+          <p class="muted" data-i18n="tax_desc"></p>
+          <label class="field">
+            <span data-i18n="tax_income"></span>
+            <input type="number" id="taxInput" inputmode="numeric" min="0" step="5000" value="300000">
+          </label>
+          <input type="range" id="taxRange" min="0" max="1000000" step="5000" value="300000" data-i18n-aria="tax_income">
+          <div class="range-scale"><span>0</span><span>250k</span><span>500k</span><span>750k</span><span>1M</span></div>
+          <p class="note" data-i18n="tax_note"></p>
+        </div>
+        <div class="tax-out" id="taxOut" aria-live="polite"></div>
+      </article>
+    </section>
+
+    <!-- EXPLORER -->
+    <section id="explore" class="wrap section">
+      <article class="card">
+        <div class="card-head">
+          <div>
+            <h2 data-i18n="exp_title"></h2>
+            <p class="muted" data-i18n="exp_desc"></p>
+          </div>
+          <input type="search" id="expSearch" class="search" data-i18n-ph="exp_search">
+        </div>
+        <div class="chips" id="expChips" role="toolbar"></div>
+        <p class="exp-summary" id="expSummary"></p>
+        <ul class="exp-list" id="expList"></ul>
+      </article>
+    </section>
+
+    <!-- DEBT -->
+    <section id="debt" class="wrap section grid-3">
+      <article class="card">
+        <h2 data-i18n="debt_title"></h2>
+        <p class="muted" data-i18n="debt_desc"></p>
+        <h3 class="chart-title" data-i18n="debt_service"></h3>
+        <div class="chart-legend" id="debtLegend"></div>
+        <div id="debtChart" class="vchart"></div>
+        <p class="note" data-i18n="proj_note"></p>
+      </article>
+      <article class="card">
+        <h2 data-i18n="interest_title"></h2>
+        <p class="muted" data-i18n="interest_desc"></p>
+        <div id="interestChart" class="coins"></div>
+        <p class="note" data-i18n="sep2026"></p>
+      </article>
+      <article class="card">
+        <h2 data-i18n="facts_title"></h2>
+        <ul class="facts" id="facts"></ul>
+      </article>
+    </section>
+
+    <section class="wrap section">
+      <article class="card sources">
+        <h2 data-i18n="src_title"></h2>
+        <p class="muted" data-i18n="src_note"></p>
+        <ul id="sources"></ul>
+      </article>
+    </section>
+  </main>
+
+  <div class="tip" id="tip" role="tooltip" hidden></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/data-speech.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/scene3d.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

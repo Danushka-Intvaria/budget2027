@@ -1,0 +1,13 @@
+{
+  "name": "budget2027-dashboard",
+  "version": "1.0.0",
+  "description": "Interactive 3D dashboard of Sri Lanka's Budget 2027 in English, Sinhala and Tamil",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js 8080"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
